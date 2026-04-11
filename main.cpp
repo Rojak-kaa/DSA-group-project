@@ -104,6 +104,7 @@ void edit(Node* head)
     int searchID;
     cout << "Enter ID of book to edit: ";
     cin >> searchID;
+    cin.ignore();
 
     Node* current = head;
     while (current != nullptr)
