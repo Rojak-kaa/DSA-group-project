@@ -92,7 +92,61 @@ void delt(Node*& head) {
     saveToFile(head);
 }
 
+//edit
+void edit(Node* head)
+{
+    if (head == nullptr)
+    {
+        cout << "No books to edit." << endl;
+        return;
+    }
 
+    int searchID;
+    cout << "Enter ID of book to edit: ";
+    cin >> searchID;
+
+    Node* current = head;
+    while (current != nullptr)
+    {
+        if (current -> data.id == searchID)
+        {
+            cout << "Enter new Title: ";
+            getline(cin, current -> data.title);
+            cout << "Enter new Author: ";
+            getline(cin, current -> data.author);
+
+            saveToFile(head);
+            cout << "Book updated successfully." << endl;
+            return;
+        }
+        current = current -> next; //Move to next node
+    }
+    cout << "Book not found." << endl;
+}
+
+//display
+void display(Node* head)
+{
+    if (head == nullptr)
+    {
+        cout << "No books in the library." << endl;
+        return;
+    }
+
+    Node* temp = head;
+    cout << "\n--- Library Books ---" << endl;
+    cout << "ID\tTitle\tAuthor" << endl;
+    cout << "-----------------" << endl;
+
+    while (temp != nullptr)
+    {
+        cout << temp -> data.id << "\t"
+             << temp -> data.title << "\t\t"
+             << temp -> data.author << endl;
+        temp = temp -> next; // Move temp to the next node
+    }
+    cout << "-------------------------------------------" << endl;
+}
 
 int main()
 {
@@ -117,7 +171,8 @@ int main()
                 {
                     case 1:add(head); break;
                     case 2:delt(head); break;
-
+                    case 3:edit(head); break;
+                    case 4:display(head); break;
 
                 }
             }
