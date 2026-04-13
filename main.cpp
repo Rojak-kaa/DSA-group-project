@@ -34,6 +34,53 @@ void saveToFile(Node* head) {
     outFile.close();
 }
 
+void loadFromFile(Node*& head) {
+    ifstream inFile("books.txt");
+
+    if (!inFile) return;
+
+    while (true) {
+        Node* newNode = new Node();
+
+        if (!(inFile >> newNode->data.id)) {
+            delete newNode;
+            break;
+        }
+
+        inFile.ignore();
+        getline(inFile, newNode->data.title, '\t');
+        getline(inFile, newNode->data.author);
+
+        newNode->next = head;
+        head = newNode;
+    }
+
+    inFile.close();
+}
+
+//display
+void display(Node* head)
+{
+    if (head == nullptr)
+    {
+        cout << "No books in the library." << endl;
+        return;
+    }
+
+    Node* temp = head;
+    cout << "\n-------------- Library Books --------------" << endl;
+    cout << "ID\tTitle\t\tAuthor" << endl;
+    cout << "-------------------------------------------" << endl;
+
+    while (temp != nullptr)
+    {
+        cout << temp -> data.id << "\t"
+             << temp -> data.title << "\t\t"
+             << temp -> data.author << endl;
+        temp = temp -> next; // Move temp to the next node
+    }
+    cout << "-------------------------------------------" << endl;
+}
 
 //add
 void add(Node*& head) {
@@ -58,7 +105,11 @@ void add(Node*& head) {
 
 //delete
 void delt(Node*& head) {
-    if (head == nullptr) return;
+    if (head == nullptr) {
+        return;
+    }
+
+    display(head);
 
     int searchID;
     cout << "Enter ID to delete: ";
@@ -87,6 +138,7 @@ void delt(Node*& head) {
     prev->next = temp->next;
     delete temp;
     saveToFile(head);
+    display(head);
 }
 
 //edit
@@ -97,6 +149,8 @@ void edit(Node* head)
         cout << "No books to edit." << endl;
         return;
     }
+
+    display(head);
 
     int searchID;
     cout << "Enter ID of book to edit: ";
@@ -115,41 +169,26 @@ void edit(Node* head)
 
             saveToFile(head);
             cout << "Book updated successfully." << endl;
+
+            display(head);
             return;
+
         }
         current = current -> next; //Move to next node
     }
     cout << "Book not found." << endl;
+
+
+
 }
 
-//display
-void display(Node* head)
-{
-    if (head == nullptr)
-    {
-        cout << "No books in the library." << endl;
-        return;
-    }
 
-    Node* temp = head;
-    cout << "\n--- Library Books ---" << endl;
-    cout << "ID\tTitle\tAuthor" << endl;
-    cout << "-----------------" << endl;
-
-    while (temp != nullptr)
-    {
-        cout << temp -> data.id << "\t"
-             << temp -> data.title << "\t\t"
-             << temp -> data.author << endl;
-        temp = temp -> next; // Move temp to the next node
-    }
-    cout << "-------------------------------------------" << endl;
-}
 
 int main()
 {
     Node* head = nullptr;
 
+    loadFromFile(head);
 
         do
         {
