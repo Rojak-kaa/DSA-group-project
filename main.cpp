@@ -7,9 +7,6 @@ using namespace std;
 //declaration
 int choice;
 
-//stack
-
-
 
 struct Book
 {
