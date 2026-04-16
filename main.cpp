@@ -178,9 +178,48 @@ void edit(Node* head)
     }
     cout << "Book not found." << endl;
 
-
-
 }
+
+
+void search(Node*& head) {
+    cin.clear();
+    cin.ignore();
+    if (head == nullptr) {
+        return;
+    }
+
+    //search by book title
+    string searchTitle;
+    cout << "Enter Book Title to search (Case sensitive): ";
+    getline(cin, searchTitle);
+    //cin >> searchTitle;
+
+    Node* temp = head;
+    Node* prev = nullptr;
+
+    // if head is search target
+    if (temp != nullptr && temp->data.title == searchTitle) {
+        cout << "Book found. ID: " << temp->data.id << "\t Author: " << temp->data.author << endl;
+        delete temp; // Free memory
+        return;
+    }
+
+    // Search for the node with the target title
+    while (temp != nullptr && temp->data.title != searchTitle) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == nullptr)
+    {
+        cout << "Book not found." << endl;
+        return;
+    }
+    // when while loop ends, search is done and found. display temp and free memory
+    cout << "Book found. ID: " << temp->data.id << "\t Author: " << temp->data.author << endl;
+    delete temp;
+}
+
 
 
 
@@ -210,6 +249,7 @@ int main()
                     case 2:delt(head); break;
                     case 3:edit(head); break;
                     case 4:display(head); break;
+                    case 5:search(head); break;
 
                 }
             }
@@ -221,7 +261,6 @@ int main()
             {
                 cout<<"Invalid choice.";
             }
-
 
         }while (choice != 6);
 
